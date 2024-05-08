@@ -1,5 +1,5 @@
 
-# YT-RE - YT-EXT - Synce
+# YT-RE - YT-EXT
 [![YT-RE](https://github.com/Zenlua/AT-YT/actions/workflows/Install.yml/badge.svg)](https://github.com/Zenlua/AT-YT/actions/workflows/Install.yml) [![YT-EXT](https://github.com/Zenlua/AT-YT/actions/workflows/XInstall.yml/badge.svg)](https://github.com/Zenlua/AT-YT/actions/workflows/XInstall.yml)
 + Build, Edit: is the manual build version
 
