@@ -99,9 +99,9 @@ Upenv VER "$VER"
 
 if [[ "$VERSION" == 'Autu' ]] && [[ "$(Xem https://github.com/$GITHUB_REPOSITORY/releases/download/Up/Up-K${V}notes.json | grep -cm1 "${VER//./}")" == 1 ]];then
 echo "! Là phiên bản mới nhất."
-gh run cancel $GITHUB_RUN_ID
-sleep 10
-exit 0
+#gh run cancel $GITHUB_RUN_ID
+#sleep 10
+#exit 0
 fi
 
 echo
@@ -201,34 +201,34 @@ fi
 (
 
 echo "▼ Bắt đầu quá trình xây dựng..."
-eval "java -Djava.io.tmpdir=$HOME -jar $lib1 patch -b $lib2 -m $lib3 apk/YouTube.apk -o YT.apk "$Tof $Ton $Mro $theme $feature" >> Log2.txt 2>> Log2.txt"
+#java -Djava.io.tmpdir=$HOME -jar $lib1 patch
+eval "java -Djava.io.tmpdir=$HOME -jar $lib1 patch -b $lib2 -m $lib3 apk/YouTube.apk -o YT.apk "$Tof $Ton $Mro $theme $feature" >>Log2.txt 2>&1 "
 sed '/WARNING: warn: removing resource/d' Log2.txt
-echo '- Quá trình xây dựng apk xong.' | tee 2.txt
 grep 'SEVERE:' Log2.txt | sed 's|failed:|failed|g' > Log.txt
+echo '- Quá trình xây dựng apk xong.' | tee 2.txt
 
 ) & (
 
 sleep 5
 zip -qr apk/YouTube.apk -d res/*
 
-checklog 'Decoding resources' Log2.txt
-sleep 3
+#checklog 'Decoding resources' Log2.txt
+sleep 5
 
 for kvc in $(ls $HOME/.github/Language); do
-Tmk="$(echo $HOME/*/res/${kvc%.*})"
+Tmk="$(echo $HOME/YT-temporary-files/patcher/apk/res/${kvc%.*})"
 mkdir -p $Tmk
 [ -e $Tmk/strings.xml ] && sed -i "/<\/resources>/d" $Tmk/strings.xml
-[ -e $Tmk ] && cat $HOME/.github/Language/$kvc | sed -e 's|<?xml version="1.0" encoding="utf-8"?>||g' -e "/<\/resources>/d" -e "/<resources>/d" >> $Tmk/strings.xml || cat $HOME/.github/Language/$kvc | sed "/<\/resources>/d" >> $Tmk/strings.xml
+[ -e $Tmk ] && cat $HOME/.github/Language/$kvc | sed -e '/encoding=/d' -e "/resources>/d" >> $Tmk/strings.xml || cat $HOME/.github/Language/$kvc | sed "/<\/resources>/d" >> $Tmk/strings.xml
 echo '</resources>' >> $Tmk/strings.xml
 done
 
+#cat $HOME/tmp/patcher/apk/res/values-vi/strings.xml
 echo '- Quá trình ghép string xong' | tee 1.txt
-
-
 )
 
 # Chờ xây dựng xong
-Loading "1.txt" "2.txt" >/dev/null
+Loading "1.txt" "2.txt"
 if [ "$TYPE" == 'true' ];then
 mv YT.apk $HOME/Tav/YouTube.apk
 else
